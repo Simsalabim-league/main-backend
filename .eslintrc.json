@@ -119,11 +119,16 @@
         "@typescript-eslint/no-var-requires": "off",
         "@typescript-eslint/camelcase": "off",
         "@typescript-eslint/explicit-module-boundary-types": "off",
-        "@typescript-eslint/array-type":  {
-            "default": "generic",
-            "readonly": "generic"
-        },
-        "@typescript-eslint/member-delimeter-style": {
+        "@typescript-eslint/no-explicit-any": "off",
+        "@typescript-eslint/array-type":  [
+            2,
+            {
+                "default": "generic",
+                "readonly": "generic"
+            }],
+        "@typescript-eslint/member-delimiter-style": [
+            2,
+            {
             "multiline": {
                 "delimiter": "semi",
                 "requireLast": true
@@ -132,6 +137,6 @@
                 "delimiter": "semi",
                 "requireLast": true
             }
-        }
+        }]
     }
 }

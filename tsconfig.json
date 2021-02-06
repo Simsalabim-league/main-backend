@@ -1,22 +1,27 @@
 {
     "compilerOptions": {
-      "module": "commonjs",
-      "target": "esnext",
-      "noImplicitAny": true,
-      "removeComments": true,
-      "allowSyntheticDefaultImports": true,
-      "esModuleInterop": true,
-      "outDir": "./dist",
-      "moduleResolution": "node",
-      "resolveJsonModule": true,
-      "baseUrl": "."
+        "module": "commonjs",
+        "target": "esnext",
+        "noImplicitAny": true,
+        "removeComments": true,
+        "allowJs": true,
+        "esModuleInterop": true,
+        "outDir": "./dist",
+        "moduleResolution": "node",
+        "sourceMap": true,
+        "resolveJsonModule": true,
+        "skipLibCheck": true,
+        "baseUrl": ".",
+        "paths": {
+            "@src/*": ["./src/*"],
+            "@middlewares/*": ["./src/middlewares/*"]
+        }
     },
     "include": [
       "src/**/*.ts",
-      ".eslintrc.json"
     ],
     "exclude": [
       "node_modules",
       "**/*.spec.ts"
-    ]
+    ],
 }
