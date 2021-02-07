@@ -1,7 +1,7 @@
 import { Strategy as LocalStrategy } from 'passport-local'
 import { Connection } from '@src/database/connectDB'
 import { User } from '@src/types/user'
-import { none, Option, some } from 'fp-ts/lib/Option'
+import { none, some } from 'fp-ts/Option'
 import { DoneFn } from '@src/types/express'
 
 

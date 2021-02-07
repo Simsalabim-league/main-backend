@@ -1,21 +1,33 @@
 import { PassportStatic } from 'passport'
 import { ApiHandler } from '@src/types/express'
+import { fold, Option } from 'fp-ts/Option'
+import { User } from '@src/types/user'
 
-export const loginHandler: (p: PassportStatic) => ApiHandler = (passport) => (req, res, next) =>
+interface LoginRequest {
+    username: string;
+    password: string;
+}
+
+export const loginHandler: (p: PassportStatic) => ApiHandler<any, LoginRequest, User> = (passport) => (req, res, next) =>
 {
-    passport.authenticate('local', (err, user, info) =>
+    passport.authenticate('local', (err, user: Option<User>, info) =>
     {
-        console.log(user)
-        // if (err) console.log(err)
-        // if (!user)
-        // {
-        //     return res.status(401).send(info)
-        // }
-        // req.login(user, (loginError) =>
-        // {
-        //     if (loginError) console.log(loginError)
-        //     res.send({ status: 'done', message: JSON.stringify(user) })
-        // })
+        if (err) console.trace(err)
+        fold(
+            () =>
+            {
+                res.status(401).send(info)
+            },
+            (user: User) =>
+            {
+                req.login(user, (loginError) =>
+                {
+                    if (loginError) console.trace(loginError)
+                    res.send(user)
+                })
+            },
+        )(user)
+
         next()
     })(req, res, next)
 }

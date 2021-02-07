@@ -1,13 +1,20 @@
-import { Option } from 'fp-ts/Option'
+import { Option, Some } from 'fp-ts/lib/Option'
 import { User } from '@src/types/user'
 import { IVerifyOptions } from 'passport-local'
-import { Request, Response, NextFunction } from 'express'
-
+import { NextFunction, Request, Response } from 'express'
 
 export type DoneFn = (error: unknown, user?: Option<User>, options?: IVerifyOptions & { status: 'failed'|'done'; }) => void
 
-export type ApiHandler = <Params = Record<string, unknown>, ReqBody = any, ResBody = any>(
-    req: Request<Params, ResBody, ReqBody> & { user: User; },
+export type ApiHandler<
+    Params extends Record<string, any> | null = null,
+    ReqBody extends Record<string, any> | null = null,
+    ResBody extends Record<string, any> | null = null,
+    > = (
+    req: Request<Params, ResBody, ReqBody> & { user: Some<User>; },
     res: Response<ResBody>,
     next: NextFunction
 ) => unknown
+
+export interface ApiError {
+    message: string;
+}

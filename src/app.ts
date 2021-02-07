@@ -1,20 +1,16 @@
-import https from 'https'
-
 require('dotenv').config()
 
 import { connectDB } from '@src/database/connectDB'
 
-import fs from 'fs'
 import http from 'http'
 
 import passport from 'passport'
-import express, { Request } from 'express'
+import express from 'express'
 import session from 'express-session'
 import bodyParser from 'body-parser'
-import cors, { CorsOptions, CorsOptionsDelegate } from 'cors'
+import cors from 'cors'
 import mongoConnector from 'connect-mongo'
 import { v4 as uuid } from 'uuid'
-import { Strategy as LocalStrategy, IVerifyOptions } from 'passport-local'
 import { authenticationStrategy } from '@src/middlewares/authentication/authenticationStrategy'
 import { deserializer, serializer } from '@src/middlewares/authentication/serialization'
 import { corsOptions } from '@src/middlewares/corsProtection'
@@ -60,10 +56,7 @@ connectDB()
 
         app.post('/login', loginHandler(passport))
 
-        app.get('/', (req, res) =>
-        {
-            res.send(123)
-        })
+        app.get('/user' )
 
         const server = http.createServer(app)
         const port = process.env.APP_PORT ?? 9999
