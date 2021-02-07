@@ -1,6 +1,10 @@
+import { sessionUser } from '@handlers/sessionUser'
+
 require('dotenv').config()
 
 import http from 'http'
+import https from 'https'
+import fs from 'fs'
 import passport from 'passport'
 import express from 'express'
 import session from 'express-session'
@@ -23,6 +27,11 @@ const MongoStore = mongoConnector(session)
 
 const app = express()
 
+const isSecure = process.env.NODE_ENV === 'production'
+const privateKey = isSecure ? fs.readFileSync(process.env.KEY_PATH, 'utf8') : null
+const certificate = isSecure ? fs.readFileSync(process.env.CRT_PATH, 'utf8') : null
+const credentials = { key: privateKey, cert: certificate }
+
 connectDB()
     .then(({ client: clientDB, db }) =>
     {
@@ -44,7 +53,7 @@ connectDB()
             cookie: {
                 maxAge: 3.154e+10,
                 httpOnly: true,
-                //secure: protocol === 'https',
+                secure: isSecure,
                 sameSite: 'none',
             },
         }))
@@ -58,12 +67,15 @@ connectDB()
 
         app.post('/login', loginHandler(passport))
 
-        app.get('/user', isAuthorized)
+        app.get('/session-user', isAuthorized, sessionUser)
+        app.get('profile')
 
-        const server = http.createServer(app)
+        const server = isSecure
+            ? https.createServer(credentials, app)
+            : http.createServer(app)
         const port = process.env.APP_PORT ?? 9999
         server.listen(port, () =>
         {
-            console.log(`API was started at http://localhost:${port}`)
+            console.log(`API was started at ${isSecure ? 'https' : 'http'}://localhost:${port}`)
         })
     })
