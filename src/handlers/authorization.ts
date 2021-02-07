@@ -1,7 +1,6 @@
 import { PassportStatic } from 'passport'
-import { ApiHandler } from '@src/types/express'
+import { ApiHandler, User } from '@src/types'
 import { fold, Option } from 'fp-ts/Option'
-import { User } from '@src/types/user'
 
 interface LoginRequest {
     username: string;

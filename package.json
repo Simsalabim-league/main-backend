@@ -49,6 +49,8 @@
     },
     "_moduleAliases": {
         "@src": "./dist",
-        "@middlewares": "./dist/middlewares"
+        "@middlewares": "./dist/middlewares",
+        "@handlers": "./dist/handlers",
+        "@utils": "./dist/utils"
     }
 }

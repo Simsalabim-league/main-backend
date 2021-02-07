@@ -1,5 +1,5 @@
-import { createHandler } from '@src/utils/createHandler'
-import { throwApiError } from '@src/utils/throwApiError'
+import { createHandler } from '@utils/createHandler'
+import { throwApiError } from '@utils/throwApiError'
 
 export const isAuthorized = createHandler(((req, res, next) =>
 {

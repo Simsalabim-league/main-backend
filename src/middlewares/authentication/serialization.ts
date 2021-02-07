@@ -1,6 +1,5 @@
-import { User } from '@src/types/user'
-import { AnyFunction } from '@src/utils/functions'
-import { DoneFn } from '@src/types/express'
+import { AnyFunction } from '@utils/functions'
+import { DoneFn, User } from '@src/types'
 import { Connection } from '@src/database/connectDB'
 import { ObjectId } from 'mongodb'
 import { some } from 'fp-ts/Option'
