@@ -1,3 +1,5 @@
+import { ObjectId } from 'mongodb'
+
 export type Guild = 'sim'|'zim'
 export type Role = 'Админ'|'Офицер'|'Рядовой'
 
@@ -26,10 +28,9 @@ export interface RolesDistribution {
 
 export interface User
 {
-    _id: string;
+    _id: string | ObjectId;
 
     name: string;
-    warnings: number;
     guild: string;
     role: string;
     password: string;
@@ -59,3 +60,17 @@ export interface User
     rank_info?: RankInfo;
     distRoles: RolesDistribution;
 }
+
+export type Profile = Omit<User, 'password'>
+
+export type TableUser = Omit<User,
+    'name'
+    | 'passoword'
+    | 'vk_id'
+    | 'vk_photo_large'
+    | 'bdate'
+    | 'town'
+    | 'discord_id'
+    | 'discord_avatar_large'
+    | 'lol_id'
+    | 'lol_acc_id'>

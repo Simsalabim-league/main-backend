@@ -9,12 +9,14 @@ export type ApiHandler<
     Params extends Record<string, any> | null = null,
     ReqBody extends Record<string, any> | null = null,
     ResBody extends Record<string, any> | null = null,
+    ReqQuery extends Record<string, any> | null = null,
     > = (
-    req: Request<Params, ResBody, ReqBody> & { user: Some<User>; },
+    req: Request<Params, ResBody, ReqBody, ReqQuery> & { user: Some<User>; },
     res: Response<ResBody>,
     next: NextFunction
-) => unknown
+) => Promise<unknown>
 
-export interface ApiError {
+export interface ApiErrorResponse {
     message: string;
+    details?: string;
 }

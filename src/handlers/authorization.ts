@@ -7,7 +7,7 @@ interface LoginRequest {
     password: string;
 }
 
-export const loginHandler: (p: PassportStatic) => ApiHandler<any, LoginRequest, User> = (passport) => (req, res, next) =>
+export const loginHandler: (p: PassportStatic) => ApiHandler<any, LoginRequest, User> = (passport) => async (req, res, next) =>
 {
     passport.authenticate('local', (err, user: Option<User>, info) =>
     {

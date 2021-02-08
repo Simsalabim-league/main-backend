@@ -1,5 +1,3 @@
-import { sessionUser } from '@handlers/sessionUser'
-
 require('dotenv').config()
 
 import http from 'http'
@@ -21,6 +19,9 @@ import { deserializer, serializer } from '@middlewares/authentication/serializat
 import { corsOptions } from '@middlewares/corsProtection'
 
 import { loginHandler } from '@handlers/authorization'
+import { sessionUser } from '@handlers/sessionUser'
+import { getProfile } from '@handlers/Profile/getProfile'
+import { getUsers } from '@handlers/Users/getUsers'
 
 
 const MongoStore = mongoConnector(session)
@@ -65,10 +66,13 @@ connectDB()
         app.use(passport.initialize())
         app.use(passport.session())
 
+
         app.post('/login', loginHandler(passport))
 
         app.get('/session-user', isAuthorized, sessionUser)
-        app.get('profile')
+        app.get('/profile/:id', isAuthorized, getProfile)
+        app.get('/users', isAuthorized, getUsers)
+
 
         const server = isSecure
             ? https.createServer(credentials, app)
