@@ -1,6 +1,6 @@
 import { createHandler, IApiError, once, throwApiError } from '@src/utils'
-import { Profile, User } from '@src/types'
-import { createProjection } from '@utils/createProjection'
+import { Profile } from '@src/types'
+import { createProjection, createProjectionProps } from '@utils/createProjection'
 import { connectDB } from '@src/database/connectDB'
 import { getUser } from '@utils/getUser'
 import { ObjectId } from 'mongodb'
@@ -8,17 +8,19 @@ import { Either, fold, tryCatch } from 'fp-ts/Either'
 import { pipe } from 'fp-ts/pipeable'
 import { resolveApiError } from '@utils/resolveApiError'
 
-const defaultProjection = once(() => createProjection({ proj: ['password'], type: 'omit' }))
+const defaultProjection = once(() => createProjection({ projection: ['password'], type: 'omit' }))
 
 export const getProfile = createHandler<
     { id: string; },
     null,
     Partial<Profile>,
-    { projection?: Array<Partial<keyof User>>; }
+    createProjectionProps
 >(
     async (req, res) =>
     {
-        const projection = req.query.projection ? createProjection({ proj: req.query.projection, type: 'include' }) : defaultProjection()
+        const projection = req.query.projection && req.query.type
+            ? createProjection({ projection: req.query.projection, type: req.query.type })
+            : defaultProjection()
         const { db } = await connectDB()
 
         const profile = await tryCatch<IApiError, Promise<Either<Error, Profile>>>(

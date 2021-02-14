@@ -4,7 +4,7 @@ import { TableUser } from '@src/types'
 import { connectDB } from '@src/database/connectDB'
 
 const defaultProjection = once(() => createProjection({
-    proj: [
+    projection: [
         'name',
         'password',
         'vk_id',

@@ -38,12 +38,15 @@ export const fullProjection: FullProjection = {
     custom_groups: 1,
 }
 
-interface createProjectionProps {
-    proj: Array<Partial<keyof Projection>>;
+export interface createProjectionProps {
+    projection: Array<Partial<keyof Projection>>;
     type: 'omit'|'only';
 }
-export const createProjection = ({ type, proj }: createProjectionProps): Projection => (
+export const createProjection = ({ type, projection }: createProjectionProps): Projection => (
     type === 'omit'
-        ? filterWithIndex((field: keyof User) => !proj.includes(field))(fullProjection)
-        : proj.reduce((projection, field) => ({ ...projection, [field]: 1 }), {})
+        ? filterWithIndex((field: keyof User) => !projection.includes(field))(fullProjection)
+        : projection.reduce((generatedProjection, projectionField) => ({
+            ...generatedProjection,
+            [projectionField]: 1,
+        }), {})
 )
