@@ -4,8 +4,8 @@
     "license": "AGPL-3.0",
     "scripts": {
         "dev": "cross-env NODE_ENV=development nodemon --watch \"src/**\" --ext \"ts,json\" --ignore \"src/**/*.spec.ts\" --exec \"ts-node -r tsconfig-paths/register src/app.ts\"",
-        "build": "tsc",
-        "start": "node scripts/rm.js dist && yarn build && cross-env NODE_ENV=production node -r module-alias/register dist/app.js",
+        "build": "node scripts/rm.js dist && tsc",
+        "start": "yarn build && cross-env NODE_ENV=production node -r module-alias/register dist/app.js",
         "lint": "tsc --noEmit && eslint \"**/*.{js,ts}\"",
         "prettify": "eslint --fix --ext .ts src"
     },
