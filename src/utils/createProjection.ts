@@ -34,12 +34,13 @@ export const fullProjection: FullProjection = {
     lol_profile_icon: 1,
     lol_acc_id: 1,
     rank_info: 1,
-    distRoles: 1,
+    dist_roles: 1,
+    custom_groups: 1,
 }
 
 interface createProjectionProps {
     proj: Array<Partial<keyof Projection>>;
-    type: 'omit'|'include';
+    type: 'omit'|'only';
 }
 export const createProjection = ({ type, proj }: createProjectionProps): Projection => (
     type === 'omit'

@@ -57,15 +57,16 @@ export interface User
     roles: string;
     lol_profile_icon: string;
     lol_acc_id: string;
-    rank_info?: RankInfo;
-    distRoles: RolesDistribution;
+    rank_info: RankInfo;
+    dist_roles: RolesDistribution;
+    custom_groups: Array<string>;
 }
 
 export type Profile = Omit<User, 'password'>
 
 export type TableUser = Omit<User,
     'name'
-    | 'passoword'
+    | 'password'
     | 'vk_id'
     | 'vk_photo_large'
     | 'bdate'

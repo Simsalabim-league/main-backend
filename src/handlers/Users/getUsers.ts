@@ -15,9 +15,10 @@ const defaultProjection = once(() => createProjection({
         'discord_avatar_large',
         'lol_id',
         'lol_acc_id',
+        'custom_groups',
     ],
-    type: 'omit' }),
-)
+    type: 'omit',
+}))
 
 export const getUsers = createHandler<
     { id: string; },
