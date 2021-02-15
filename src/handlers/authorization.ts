@@ -1,13 +1,20 @@
 import { PassportStatic } from 'passport'
-import { ApiHandler, User } from '@src/types'
 import { fold, Option } from 'fp-ts/Option'
+import { User } from '@src/types'
+import { ApiHandler } from '@src/utils'
 
 interface LoginRequest {
     username: string;
     password: string;
 }
 
-export const loginHandler: (p: PassportStatic) => ApiHandler<any, LoginRequest, User> = (passport) => async (req, res, next) =>
+export const loginHandler: (p: PassportStatic) => ApiHandler<null, User, LoginRequest> = (
+    passport,
+) => async (
+    req,
+    res,
+    next,
+) =>
 {
     passport.authenticate('local', (err, user: Option<User>, info) =>
     {

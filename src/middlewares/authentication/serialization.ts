@@ -1,8 +1,8 @@
+import { ObjectId } from 'mongodb'
+import { some } from 'fp-ts/Option'
 import { AnyFunction } from '@utils/functions'
 import { DoneFn, User } from '@src/types'
 import { Connection } from '@src/database/connectDB'
-import { ObjectId } from 'mongodb'
-import { some } from 'fp-ts/Option'
 
 export const serializer = () => (user: User, done: AnyFunction) =>
 {

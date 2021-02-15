@@ -1,5 +1,5 @@
-import { User } from '@src/types'
 import { filterWithIndex, ReadonlyRecord } from 'fp-ts/ReadonlyRecord'
+import { User } from '@src/types'
 
 export type FullProjection = ReadonlyRecord<keyof User, 1|0>
 export type Projection = Partial<FullProjection>

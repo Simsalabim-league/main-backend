@@ -3,10 +3,11 @@
     "author": "Maxim Yakovlev <max.yakovlev555@gmail.com>",
     "license": "AGPL-3.0",
     "scripts": {
-        "dev": "cross-env NODE_ENV=development nodemon --watch \"src/**\" --ext \"ts,json\" --ignore \"src/**/*.spec.ts\" --exec \"ts-node -r tsconfig-paths/register src/app.ts\"",
+        "dev": "cross-env NODE_ENV=development nodemon --watch \"src/**\" --ext \"ts,json\" --ignore \"src/**/*.spec.ts\" --exec \"node --unhandled-rejections=strict -r ts-node/register -r tsconfig-paths/register src/app.ts\"",
         "build": "node scripts/rm.js dist && tsc",
         "start": "yarn build && cross-env NODE_ENV=production node -r module-alias/register dist/app.js",
-        "lint": "tsc --noEmit && eslint \"**/*.{js,ts}\"",
+        "type-check": "tsc --noEmit",
+        "lint": "eslint \"**/*.{js,ts}\"",
         "prettify": "eslint --fix --ext .ts src"
     },
     "dependencies": {
@@ -39,9 +40,11 @@
         "cross-env": "^7.0.3",
         "eslint": "^7.19.0",
         "eslint-config-prettier": "^7.2.0",
+        "eslint-import-resolver-typescript": "^2.3.0",
+        "eslint-plugin-import": "^2.22.1",
+        "module-alias": "^2.2.2",
         "nodemon": "^2.0.7",
         "prettier": "^2.2.1",
-        "module-alias": "^2.2.2",
         "prettier-eslint": "^12.0.0",
         "ts-node": "^9.1.1",
         "tsconfig-paths": "^3.9.0",

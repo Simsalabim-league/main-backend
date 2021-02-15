@@ -1,19 +1,19 @@
+import { ObjectId } from 'mongodb'
+import { Either, fold, tryCatch } from 'fp-ts/Either'
+import { pipe } from 'fp-ts/pipeable'
 import { createHandler, IApiError, once, throwApiError } from '@src/utils'
 import { Profile } from '@src/types'
 import { createProjection, createProjectionProps } from '@utils/createProjection'
 import { connectDB } from '@src/database/connectDB'
 import { getUser } from '@utils/getUser'
-import { ObjectId } from 'mongodb'
-import { Either, fold, tryCatch } from 'fp-ts/Either'
-import { pipe } from 'fp-ts/pipeable'
 import { resolveApiError } from '@utils/resolveApiError'
 
 const defaultProjection = once(() => createProjection({ projection: ['password'], type: 'omit' }))
 
 export const getProfile = createHandler<
-    { id: string; },
-    null,
+    { user_id: string; },
     Partial<Profile>,
+    null,
     createProjectionProps
 >(
     async (req, res) =>
@@ -24,7 +24,7 @@ export const getProfile = createHandler<
         const { db } = await connectDB()
 
         const profile = await tryCatch<IApiError, Promise<Either<Error, Profile>>>(
-            () => getUser<Profile>({ _id: new ObjectId(req.params.id) }, projection, db),
+            () => getUser<Profile>({ _id: new ObjectId(req.params.user_id) }, projection, db),
             (error: Error) => error.message === 'Argument passed in must be a single String of 12 bytes or a string of 24 hex characters'
                 ? { message: 'Передан неверный ID', code: 400, details: error.message }
                 : { message: 'Произошла неизвестная ошибка', details: error.message },

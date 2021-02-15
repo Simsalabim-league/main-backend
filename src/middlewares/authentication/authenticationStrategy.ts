@@ -1,7 +1,7 @@
 import { Strategy as LocalStrategy } from 'passport-local'
+import { none, some } from 'fp-ts/Option'
 import { Connection } from '@src/database/connectDB'
 import { User, DoneFn } from '@src/types'
-import { none, some } from 'fp-ts/Option'
 
 
 export const authenticationStrategy = (db: Connection['db']) => new LocalStrategy(

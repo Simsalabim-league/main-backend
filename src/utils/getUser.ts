@@ -1,9 +1,9 @@
-import { Projection } from '@utils/createProjection'
-import { Connection } from '@src/database/connectDB'
 import { pipe } from 'fp-ts/pipeable'
 import * as TE from 'fp-ts/TaskEither'
-import { User } from '@src/types'
 import { Either } from 'fp-ts/Either'
+import { Projection } from '@utils/createProjection'
+import { Connection } from '@src/database/connectDB'
+import { User } from '@src/types'
 
 const exec = <T>(task: Promise<T>) => (
     TE.tryCatch(

@@ -10,6 +10,7 @@ import bodyParser from 'body-parser'
 import cors from 'cors'
 import mongoConnector from 'connect-mongo'
 import { v4 as uuid } from 'uuid'
+import { configureAppExit } from '@src/database/configureAppExit'
 
 import { connectDB } from '@src/database/connectDB'
 
@@ -20,7 +21,10 @@ import { corsOptions } from '@middlewares/corsProtection'
 
 import { loginHandler } from '@handlers/authorization'
 import { sessionUser } from '@handlers/sessionUser'
+
+import { getAchievements } from '@handlers/Achievements/getAchievements'
 import { getProfile } from '@handlers/Profile/getProfile'
+
 import { getUsers } from '@handlers/Users/getUsers'
 
 
@@ -70,7 +74,10 @@ connectDB()
         app.post('/login', loginHandler(passport))
 
         app.get('/session-user', isAuthorized, sessionUser)
-        app.get('/profile/:id', isAuthorized, getProfile)
+
+        app.get('/profile/:user_id', isAuthorized, getProfile)
+        app.get('/profile/:user_id/achievements', isAuthorized, getAchievements)
+
         app.get('/users', isAuthorized, getUsers)
 
 
@@ -81,5 +88,6 @@ connectDB()
         server.listen(port, () =>
         {
             console.log(`API was started at ${isSecure ? 'https' : 'http'}://localhost:${port}`)
+            configureAppExit(clientDB)
         })
     })
