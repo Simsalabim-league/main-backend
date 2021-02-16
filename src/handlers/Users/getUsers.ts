@@ -23,10 +23,9 @@ const defaultProjection = once(() => createProjection({
 export const getUsers = createHandler<
     { id: string; },
     Array<TableUser>
->((req, res) => (
-    connectDB()
-        .then(
-            ({ db }) => db.collection('users').find<TableUser>({}, { projection: defaultProjection() }).toArray(),
-        )
-        .then(res.send.bind(res))
-))
+>((req, res) => connectDB()
+    .then(
+        ({ db }) => db.collection('users').find<TableUser>({}, { projection: defaultProjection() }).toArray(),
+    )
+    .then(res.send.bind(res)),
+)
