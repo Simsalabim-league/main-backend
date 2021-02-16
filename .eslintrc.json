@@ -54,7 +54,7 @@
         }],
         "import/no-named-as-default-member": "off",
 
-        "no-console": "warn",
+        "no-console": "off",
         "no-alert": "error",
         "no-extra-boolean-cast": "off",
         "array-callback-return": "error",
