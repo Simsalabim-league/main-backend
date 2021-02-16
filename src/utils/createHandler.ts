@@ -19,6 +19,20 @@ export interface ApiErrorResponse {
     details?: string;
 }
 
+export const errors = (error: Error): IApiError =>
+{
+    switch (error.message)
+    {
+    case 'Argument passed in must be a single String of 12 bytes or a string of 24 hex characters':
+        return {
+            message: 'Передан неверный ID',
+            code: 400,
+            details: error.message,
+        }
+    default:
+        return { message: 'Произошла неизвестная ошибка', details: error.message }
+    }
+}
 
 export const createHandler = <
     ExpressParams extends Record<string, any> | null = null, // Such params as: users/:id -> { id: string }
@@ -32,12 +46,12 @@ export const createHandler = <
         {
             await tryCatch(
                 () => handler(req, res, next),
-                (error: IApiError | Error) =>
+                (error: ApiError | Error) =>
                 {
-                    if (error instanceof ApiError)
-                        res.status(error.code ?? 500).send({ message: error.message, details: error.details })
-                    else
-                        res.status(500).send({ message: error.message })
+                    const apiError = error instanceof ApiError ? error : new ApiError(errors(error))
+
+                    res.status(apiError.code ?? 500).send({ message: apiError.message, details: apiError.details })
+
                     if (!(error instanceof ApiError) || error.critical)
                         console.trace(error)
                 },
